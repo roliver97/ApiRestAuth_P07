@@ -6,7 +6,8 @@ const getBooks = async (req, res, next) => {
     const books = await Book.find().populate("postedBy", "userName").populate("author"); 
     return res.status(200).json(books);
   } catch (error) {
-    return res.status(400).json(error);
+      console.error("Error al obtener los libros:", error); // Sintaxis para Backend (permite Stack Trace)
+      return res.status(400).json( { message: `Error al obtener los libros: ${error.message}`}); // Sintaxis para Frontend (es texto plano y más legible)
   }
 };
 
@@ -33,7 +34,8 @@ const postBook = async (req, res, next) => {
     return res.status(201).json(bookSaved)
 
   } catch (error) {
-    return res.status(400).json(error.message || "Error al crear el libro");
+      console.error("Error al crear el libro:", error);
+      return res.status(400).json( { message: `Error al crear el libro: ${error.message}`}); 
   }
 }
 
@@ -46,7 +48,8 @@ const deleteBook = async (req, res, next) => {
       bookDeleted
     });
   } catch (error) {
-    return res.status(400).json(error);
+      console.error("Error al eliminar el libro:", error);
+      return res.status(400).json( { message: `Error al eliminar el libro: ${error.message}`}); 
   }
 }
 
@@ -64,7 +67,8 @@ const updateBook = async (req, res, next) => {
       bookUpdated
     });
   } catch (error) {
-    return res.status(400).json(error);
+      console.error("Error al actualizar los datos del libro:", error);
+      return res.status(400).json( { message: `Error al actualizar los datos del libro: ${error.message}`}); 
   }
 }
 

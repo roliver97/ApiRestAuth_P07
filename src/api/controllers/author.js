@@ -6,7 +6,8 @@ const getAuthors = async (req, res, next) => {
     const authors = await Author.find(); 
     return res.status(200).json(authors);
   } catch (error) {
-    return res.status(400).json(error);
+      console.error("Error al obtener los autores:", error); // Sintaxis para Backend (permite Stack Trace)
+      return res.status(400).json( { message: `Error al obtener los autores: ${error.message}`}); // Sintaxis para Frontend (es texto plano y más legible)
   }
 };
 
@@ -28,8 +29,8 @@ const postAuthor = async (req, res, next) => {
     return res.status(201).json(authorSaved)
 
   } catch (error) {
-    console.log(error)
-    return res.status(400).json(error);
+      console.error("Error al crear el autor:", error);
+      return res.status(400).json( { message: `Error al crear el autor: ${error.message}`}); 
   }
 }
 
@@ -49,7 +50,8 @@ const deleteAuthor = async (req, res, next) => {
       authorDeleted
     });
   } catch (error) {
-    return res.status(400).json(error);
+      console.error("Error al eliminar el autor:", error);
+      return res.status(400).json( { message: `Error al eliminar el autor: ${error.message}`}); 
   }
 }
 
@@ -66,8 +68,9 @@ const updateAuthor = async (req, res, next) => {
       mensaje: "Los datos de este autor han sido actualizados", 
       authorUpdated
     });
-  } catch (error) {
-    return res.status(400).json(error);
+  }  catch (error) {
+      console.error("Error al actualizar los datos del autor:", error);
+      return res.status(400).json( { message: `Error al actualizar los datos del autor: ${error.message}`}); 
   }
 }
 

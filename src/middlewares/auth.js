@@ -22,12 +22,14 @@ const isAuth = async (req, res, next) => {
     next();
 
   } catch (error) {
-    return res.status(401).json("Error con la autenticación del usuario");
-  }
+    console.error("Error en middleware isAuth:", error);
+    return res.status(500).json({ message: `Error interno de autorización: ${error.message}` });
+ }
 }
 
 const isAdmin = async (req, res, next) => {  // Como primero ejecutaremos el middleware isAuth, este guardará los datos de autenticación dentro de req.user, así que en las siguientes funciones (como isAdmin o isAuthorizedToDeleteUsers) podremos usar directamente req.user para saber si está autenticado o no.
-    if(!req.user) {
+ try {
+   if(!req.user) {
       return res.status(401).json("No estás autorizado. Token invalido o expirado");
     }
 
@@ -36,9 +38,14 @@ const isAdmin = async (req, res, next) => {  // Como primero ejecutaremos el mid
     } else {
         return res.status(403).json("Acceso denegado. Se requieren permisos de administrador");
     }
+  } catch (error) {
+    console.error("Error en middleware isAdmin:", error);
+    return res.status(500).json({ message: `Error interno de autorización: ${error.message}` });
+ }
 }
 
-const isAuthorizedToDeleteUsers = async (req, res, next) => { // Como primero ejecutaremos el middleware isAuth, este guardará los datos de autenticación dentro de req.user, así que en las siguientes funciones (como isAdmin o isAuthorizedToDeleteUsers) podremos usar directamente req.user para saber si está autenticado o no.
+const isAdminOrSelf = async (req, res, next) => { // Como primero ejecutaremos el middleware isAuth, este guardará los datos de autenticación dentro de req.user, así que en las siguientes funciones (como isAdmin o isAuthorizedToDeleteUsers) podremos usar directamente req.user para saber si está autenticado o no.
+  try {
     if (!req.user) {
         return res.status(401).json("Usuario no autenticado");
     }
@@ -51,7 +58,11 @@ const isAuthorizedToDeleteUsers = async (req, res, next) => { // Como primero ej
       next();
     } else {
       return res.status(403).json("No tienes permiso para realizar esta acción");
-    }
+    }  
+  } catch (error) {
+    console.error("Error en middleware isAdminOrSelf:", error);
+    return res.status(500).json({ message: `Error interno de autorización: ${error.message}` });
+ }
 }
 
-module.exports = { isAuth, isAdmin, isAuthorizedToDeleteUsers }
+module.exports = { isAuth, isAdmin, isAdminOrSelf }

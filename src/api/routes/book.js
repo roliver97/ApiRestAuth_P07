@@ -4,8 +4,8 @@ const { postBook, getBooks, deleteBook, updateBook } = require("../controllers/b
 
 const booksRoutes = require("express").Router();
 
-booksRoutes.get("/", isAuth, getBooks)
-booksRoutes.post("/post", isAuth, postBook);
+booksRoutes.get("/", getBooks)
+booksRoutes.post("/", isAuth, postBook);
 booksRoutes.delete("/:id", isAdmin, deleteBook);
 booksRoutes.put("/:id", isAdmin, updateBook);
 

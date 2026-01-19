@@ -69,8 +69,8 @@ El sistema cuenta con dos niveles de autorización mediante Middlewares:
 | :--- | :--- | :--- | :--- |
 | `GET` | `/api/v1/authors` | Obtener todos los autores | No |
 | `POST` | `/api/v1/authors` | Crear un nuevo autor | 🔒 Token |
-| `PUT` | `/api/v1/authors/:id` | Actualizar autor existente | 🔒 Token |
-| `DELETE` | `/api/v1/authors/:id` | Eliminar autor (y sus libros) | 🔒 Token |
+| `PUT` | `/api/v1/authors/:id` | Actualizar autor existente | 🔒 Token (Solo Admin) |
+| `DELETE` | `/api/v1/authors/:id` | Eliminar autor (y sus libros) | 🔒 Token (Solo Admin) |
 
 ### 📚 Libros (Books)
 
@@ -78,16 +78,16 @@ El sistema cuenta con dos niveles de autorización mediante Middlewares:
 | :--- | :--- | :--- | :--- |
 | `GET` | `/api/v1/books` | Listar libros (con populate de Autor) | No |
 | `POST` | `/api/v1/books` | Crear libro (Se asigna al usuario logueado) | 🔒 Token |
-| `PUT` | `/api/v1/books/:id` | Actualizar información de un libro | 🔒 Token |
-| `DELETE` | `/api/v1/books/:id` | Eliminar un libro | 🔒 Token |
+| `PUT` | `/api/v1/books/:id` | Actualizar información de un libro | 🔒 Token (Solo Admin) |
+| `DELETE` | `/api/v1/books/:id` | Eliminar un libro | 🔒 Token (Solo Admin) |
 
 ---
 
 ## 💾 Modelos de Datos
 
-* **User:** `userName`, `password`, `email`, `role`, `image`...
+* **User:** `userName`, `password`, `rol`.
 * **Author:** `name`, `country`, `image`.
-* **Book:** `title`, `genre`, `author` (Relación con Author), `postedBy` (Relación con User).
+* **Book:** `title`, `genre`, `author` (Relación con Author), `postedBy` (Relación con User), `image`, `isSeedData`
 
 ---
 Autor: Roman Oliver Gil
